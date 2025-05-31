@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Todo List</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body class="d-flex justify-content-center">
+    <div class="card bg-primary position-relative" style="width: 38rem; min-height: 30rem">
+      <h1 class="h1 text-dark fs-4 fw-bold text-white text-center card-header">
+        Your ToDo Assistant
+      </h1>
+      <div class="card-body">
+        <div class="d-flex gap-4">
+          <input
+            id="input"
+            type="text"
+            class="form-control w-50"
+            placeholder="Add a Task..."
+          />
+          <button id="addButton" class="btn btn-danger shadow-lg">
+            Add Task
+          </button>
+          <button onclick="deletechecked()" class="btn btn-danger">
+            Delete checked
+          </button>
+
+          <div class="d-flex position-absolute bg-danger bottom-0 end-0 p-2 rounded";">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="selectAll" />
+              <label for="selectAll" class="form-check-label text-white"
+                >Select All</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <ul id="taskList" class="list-group list-unstyled"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Todo List</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+  <style>
+    /* Fix Select All position */
+    #selectAllWrapper {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: #dc3545;
+      padding: 6px 12px;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+
+<body class="d-flex justify-content-center">
+  <div class="card bg-primary position-relative" style="width: 38rem; min-height: 30rem;">
+    <h1 class="h1 text-dark fs-4 fw-bold text-white text-center card-header">
+      Your ToDo Assistant
+    </h1>
+    <div class="card-body">
+      <div class="d-flex gap-4 mb-3">
+        <input
+          id="input"
+          type="text"
+          class="form-control w-50"
+          placeholder="Add a Task..."
+        />
+        <button id="addButton" class="btn btn-danger shadow-lg">
+          Add Task
+        </button>
+        <button id="deleteCheckedBtn" class="btn btn-danger">
+          Delete checked
+        </button>
+      </div>
+
+      <ul id="taskList" class="list-group list-unstyled"></ul>
+
+      <div id="selectAllWrapper">
+        <input type="checkbox" class="form-check-input" id="selectAll" />
+        <label for="selectAll" class="form-check-label text-white mb-0">
+          Select All
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById("input");
+    const addButton = document.getElementById("addButton");
+    const taskList = document.getElementById("taskList");
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const deleteCheckedBtn = document.getElementById("deleteCheckedBtn");
+    const selectAllWrapper = document.getElementById("selectAllWrapper");
+
+    // Show or hide Select All checkbox depending on task count
+    function toggleSelectAllVisibility() {
+      selectAllWrapper.style.display = taskList.children.length > 0 ? "flex" : "none";
+      if (taskList.children.length === 0) {
+        selectAllCheckbox.checked = false;
+      }
+    }
+
+    // Update Select All checkbox state based on individual checkboxes
+    function updateSelectAllState() {
+      const checkboxes = taskList.querySelectorAll('input[type="checkbox"]');
+      const checkedBoxes = taskList.querySelectorAll('input[type="checkbox"]:checked');
+      selectAllCheckbox.checked = checkboxes.length > 0 && checkboxes.length === checkedBoxes.length;
+    }
+
+    // Add new task
+    addButton.addEventListener("click", () => {
+      const inputValue = input.value.trim();
+      if (inputValue === "") {
+        alert("Please add a Task");
+        return;
+      }
+
+      const li = document.createElement("li");
+      li.className = "d-flex justify-content-between align-items-center mt-2";
+
+      li.innerHTML = `
+        <label style="flex-grow:1; cursor:pointer;">
+          <input type="checkbox" class="form-check-input me-2" />
+          <span class="text-white">${inputValue}</span>
+        </label>
+        <button class="btn btn-sm btn-danger deleteTaskBtn">Delete</button>
+      `;
+
+      taskList.appendChild(li);
+      input.value = "";
+
+      toggleSelectAllVisibility();
+      updateSelectAllState();
+
+      // Checkbox change updates select all checkbox
+      li.querySelector('input[type="checkbox"]').addEventListener("change", () => {
+        updateSelectAllState();
+      });
+
+      // Delete button
+      li.querySelector(".deleteTaskBtn").addEventListener("click", () => {
+        li.remove();
+        toggleSelectAllVisibility();
+        updateSelectAllState();
+      });
+    });
+
+    // Select all checkbox toggles all tasks
+    selectAllCheckbox.addEventListener("change", () => {
+      const checkboxes = taskList.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.checked = selectAllCheckbox.checked;
+      });
+    });
+
+    // Delete checked tasks button
+    deleteCheckedBtn.addEventListener("click", () => {
+      const checkedBoxes = taskList.querySelectorAll('input[type="checkbox"]:checked');
+      checkedBoxes.forEach(cb => cb.closest("li").remove());
+      toggleSelectAllVisibility();
+      updateSelectAllState();
+    });
+
+    // Initial hide of select all (if no tasks)
+    toggleSelectAllVisibility();
+  </script>
+</body>
+</html>

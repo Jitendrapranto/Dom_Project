@@ -1,0 +1,9 @@
+.btn {
+  background-color: rgb(108, 13, 177);
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: rgb(90, 0, 160);
+  transform: scale(1.05);
+}
