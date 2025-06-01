@@ -37,3 +37,6 @@ const deletechecked = () => {
     li.remove();
   });
 };
+
+const strengthtext =
+  ["Weak", "Medium", "Strong", "Very strong"][strength - 1] || "Weak";
